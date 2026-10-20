@@ -87,7 +87,7 @@
   },
   "built_api_checks": "6 passed with mocked email provider: PDF attachment, CV-free application, invalid file, foreign origin, provider rejection, unconfirmed delivery",
   "public_application": "https://coastal-agency-branding.berkingurcan.chatgpt.site/be-smile/tr/#apply",
-  "public_deployment": "Live version 6; revised role copy saved only",
+  "public_deployment": "Live version 6; location-neutral revision 8 saved only, not deployed",
   "brand_revision": "Smile Disc minimal identity, 2026–2027",
   "palette": {
     "sunshine": "#F4C84A",
@@ -128,14 +128,32 @@
       "Hotel service list"
     ],
     "browser_checks": "RU/TR/DE/EN and hotel page checked locally at 1440 and 390 px, no horizontal overflow",
-    "publication": "Saved website version 7; NOT deployed after automatic approval review rejected production publication. Live site remains version 6."
+    "publication": "Included in saved revision 8; not deployed"
   },
-  "saved_version": 7,
-  "saved_source_commit": "7c971a50017a667374b5a51f1bbcfdbc87309972",
+  "saved_version": 8,
+  "saved_source_commit": "65d6c04c5d349756572b6a138107269b5b60d072",
   "git_handoff": {
     "branch": "main",
-    "commits": 0,
-    "remotes": 0,
+    "existing_commit_preserved": "50d4872",
+    "existing_origin_preserved": true,
+    "new_commit_created": false,
     "private_env_ignored": true
+  },
+  "geographic_scope_revision": {
+    "status": "City/country marketing limits removed; no invented worldwide coverage claims",
+    "languages": [
+      "ru",
+      "tr",
+      "de",
+      "en"
+    ],
+    "areas": [
+      "Candidate page titles, metadata, introduction, hero labels, ticket, footer and application panel",
+      "Hotel page title, metadata, regional list, contact panel and footer",
+      "Brand presentation footer, crew shirt/pass/social artwork and downloadable kit",
+      "PWA manifest description",
+      "README"
+    ],
+    "checks": "Source/export scan and all four language pages plus hotel/brand pages at 1440px and 390px: no city references, horizontal overflow or broken images"
   }
 }

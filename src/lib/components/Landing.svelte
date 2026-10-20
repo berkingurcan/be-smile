@@ -97,7 +97,7 @@
     <div class="hero-art">
       <div class="coast-frame"><img src={asset('/brand/coast.svg')} alt={lang==='en'?'Illustrated sunny Mediterranean coast':lang==='tr'?'Güneşli Akdeniz kıyısı illüstrasyonu':lang==='de'?'Illustration einer sonnigen Mittelmeerküste':'Иллюстрация солнечного средиземноморского побережья'} width="800" height="900" fetchpriority="high"/></div>
       <div class="art-index" aria-hidden="true"><span>BE SMILE / COASTAL LIFE</span><span>01 — 02</span></div>
-      <div class="coast-ticket"><img src={asset('/brand/symbol-ink.svg')} alt="" width="44" height="44"/><div><span>{lang==='tr'?'BİR SONRAKİ HİKÂYEN':lang==='ru'?'ТВОЯ НОВАЯ ИСТОРИЯ':lang==='de'?'DEIN NÄCHSTES KAPITEL':'YOUR NEXT CHAPTER'}</span><strong>Antalya <span>↔</span> Bodrum</strong></div><span class="ticket-arrow" aria-hidden="true">↗</span></div>
+      <div class="coast-ticket"><img src={asset('/brand/symbol-ink.svg')} alt="" width="44" height="44"/><div><span>{lang==='tr'?'BİR SONRAKİ HİKÂYEN':lang==='ru'?'ТВОЯ НОВАЯ ИСТОРИЯ':lang==='de'?'DEIN NÄCHSTES KAPITEL':'YOUR NEXT CHAPTER'}</span><strong>{lang==='tr'?'İyi bir sezon.':lang==='ru'?'Твой новый сезон.':lang==='de'?'Deine nächste Saison.':'Your next season.'}</strong></div><span class="ticket-arrow" aria-hidden="true">↗</span></div>
     </div>
   </section>
   <div class="benefit-band"><div class="wrap benefit-inner">{#each t.benefits as benefit,i}<div><RoleIcon kind={['sun','people','wave'][i]} size={29}/><span>{benefit}</span></div>{/each}</div></div>
@@ -115,7 +115,7 @@
 
   <section class="faq-section wrap"><div><p class="eyebrow">{t.faqLabel}</p><h2>{t.faqTitle}</h2></div><div class="faq-list">{#each t.faqs as faq}<details><summary>{faq[0]}<span aria-hidden="true">+</span></summary><p>{faq[1]}</p></details>{/each}</div></section>
 
-  <section class="apply-section wrap" id="apply"><div class="apply-panel"><div class="apply-copy"><p class="eyebrow">{t.formLabel}</p><h2 class="line-breaks">{t.formTitle}</h2><p>{t.formIntro}</p><img src={asset('/brand/symbol-ink.svg')} alt="" width="105" height="105"/><span class="apply-location">ANTALYA ↔ BODRUM</span></div><form onsubmit={apply} class="application-form" enctype="multipart/form-data">
+  <section class="apply-section wrap" id="apply"><div class="apply-panel"><div class="apply-copy"><p class="eyebrow">{t.formLabel}</p><h2 class="line-breaks">{t.formTitle}</h2><p>{t.formIntro}</p><img src={asset('/brand/symbol-ink.svg')} alt="" width="105" height="105"/><span class="apply-location">BE SMILE / GOOD ENERGY CREW</span></div><form onsubmit={apply} class="application-form" enctype="multipart/form-data">
     <label for="app-name">{t.name}<input id="app-name" name="name" required minlength="2" maxlength="100" autocomplete="name" placeholder={t.namePlaceholder}/></label>
     <label for="app-contact">{t.contact}<input id="app-contact" name="contact" autocapitalize="none" spellcheck="false" required minlength="3" maxlength="180" autocomplete="email" placeholder={t.contactPlaceholder}/></label>
     <div class="form-row"><label for="app-role">{t.role}<select id="app-role" name="role" bind:value={selectedRole}><option value="">{t.rolePlaceholder}</option>{#each t.roles as role,i}<option value={String(i)}>{role.type}</option>{/each}</select></label><label for="app-language">{t.language}<select id="app-language" name="language" value={lang}><option value="ru">Русский</option><option value="tr">Türkçe</option><option value="de">Deutsch</option><option value="en">English</option></select></label></div>

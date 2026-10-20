@@ -1,6 +1,6 @@
 # Be Smile / Sunshine
 
-The minimal **Smile Disc** identity and a simple recruitment website for Russian-, Turkish-, German- and English-speaking young people interested in seasonal hotel entertainment work in Antalya and Bodrum.
+The minimal **Smile Disc** identity and a simple recruitment website for Russian-, Turkish-, German- and English-speaking young people interested in seasonal hotel entertainment work.
 
 ## Run locally
 
