@@ -81,13 +81,23 @@ Screenshots are supplied under `deliverables/screenshots/` in the handoff archiv
 
 ## Content updates
 
-Translations: `src/lib/content.ts`. Current design tokens and responsive refinements: `src/refinement.css`; foundation: `src/app.css`. Agency delivery settings: `.env` / Vercel variables. Logo sources: `scripts/create-brand.mjs`. No salary, hotel partnership, eligibility or live vacancy is invented. Confirm role-specific terms before publishing recruitment claims.
+Translations: `src/lib/content.ts`. Editorial recruitment styles and responsive layouts: `src/editorial.css`; shared design tokens and brand/privacy refinements: `src/refinement.css`; foundation: `src/app.css`. Agency delivery settings: `.env` / Vercel variables. Logo sources: `scripts/create-brand.mjs`. No salary, hotel partnership, eligibility or live vacancy is invented. Confirm role-specific terms before publishing recruitment claims.
 
 ## Hotel partner route
 
 `/hotels/` has exactly two content sections: hotel crew services, then the founders and direct contact. Co-founders: Berkin Gürcan and İsmail Şen. There is no hotel contact form.
 
 Set `PUBLIC_HOTEL_PHONE` and `PUBLIC_CONTACT_EMAIL` in `.env` locally or Vercel Environment Variables, then rebuild. The phone becomes a `tel:` link and the email a `mailto:` link. These public values are intentionally visible to visitors. Empty values show a clear pending state rather than invented contact details.
+
+## Sunshine Editorial + role exploration
+
+The recruitment site combines a illustration-led editorial layout with expandable role responsibilities, fit guidance and offer-condition notes. An optional two-question guide suggests a role to explore; it does not assess employment eligibility or promise a placement. Selecting a role carries it into the application. The guide uses only local component state.
+
+`src/lib/editorial.ts` contains the new Russian, Turkish, German and English interface copy. `LanguagePicker.svelte` provides the compact language menu, and `RoleExplorer.svelte` owns the optional guide. Hotel enquiries stay visible in the mobile header and bottom navigation; the hotel page retains two sections and direct contact.
+
+Before enabling the application fields, the client checks `GET /api/apply/`. This endpoint returns only `{available: boolean}` with `Cache-Control: no-store`; no delivery settings are exposed. Missing settings, connection failures and static previews keep the form disabled and explain the state before visitors enter personal details. The CV is optional and collapsed initially. Field errors are linked to their controls. Actual email delivery still requires configured, valid Resend settings.
+
+The hero and crew-life sections use original, scalable SVG illustrations with a vintage screen-print palette. Abstract dancing figures communicate energy, performance and connection. Asset notes are in `static/images/CREDITS.md`; no stock photography or external image requests are used.
 
 ## Mobile and PWA
 

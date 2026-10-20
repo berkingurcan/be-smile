@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 1000" fill="none">
+  <defs>
+    <pattern id="paper" width="7" height="7" patternUnits="userSpaceOnUse"><circle cx="1" cy="2" r=".65" fill="#183D32" opacity=".11"/><circle cx="5" cy="6" r=".6" fill="#F7F5EC" opacity=".5"/></pattern>
+    <clipPath id="trim"><path fill="#fff" d="M0 0h800v1000H0z"/></clipPath>
+  </defs>
+  <g clip-path="url(#trim)">
+    <path fill="#DCE5DA" d="M0 0h800v1000H0z"/>
+    <circle cx="578" cy="236" r="176" fill="#F4C84A"/>
+    <circle cx="578" cy="236" r="144" stroke="#F7F5EC" stroke-width="2"/>
+    <path d="M-96 459C49 345 97 165 290 126" stroke="#F7F5EC" stroke-width="57"/>
+    <path d="M-96 459C49 345 97 165 290 126" stroke="#B44E38" stroke-width="2"/>
+    <path d="M725 452c112 37 153 167 78 263" stroke="#618D7B" stroke-width="70"/>
+    <path d="M725 452c112 37 153 167 78 263" stroke="#F7F5EC" stroke-width="2"/>
+    <!-- Three cut-paper figures: movement, performance, shared energy. -->
+    <g transform="rotate(-13 280 490)">
+      <ellipse cx="260" cy="339" rx="32" ry="38" fill="#B44E38"/>
+      <path d="M237 397c-10-24-29-48-51-67l-67-61c-15-14-32 5-21 19l60 80 52 66-15 116c-3 22 10 39 30 43l51 10c23 4 39-9 42-29l6-104 69-81 56-104c10-19-12-30-23-15l-72 86-57 47c-18-10-39-12-60-6Z" fill="#B44E38"/>
+      <path d="m217 568-77 93-34 122c-5 20 19 28 27 9l51-104 70-56 51 50 64 39c19 11 32-10 16-23l-51-50-44-83Z" fill="#B44E38"/>
+    </g>
+    <g transform="rotate(9 514 475)">
+      <ellipse cx="526" cy="313" rx="34" ry="40" fill="#183D32"/>
+      <path d="m499 374-62-61-34-79c-9-21-32-12-26 9l24 96 72 91-11 103c-3 24 13 39 36 40l55 4c25 2 42-13 40-37l-12-109 78-50 65-65c14-14-4-33-20-21l-73 48-72 26c-16-3-43-3-60 5Z" fill="#183D32"/>
+      <path d="m479 548-61 110 15 114c3 24 30 22 30 0l5-92 53-68 43 72 60 92c12 19 35 6 24-14l-43-101-30-104Z" fill="#183D32"/>
+    </g>
+    <path d="m335 290 13-28 13 28 28 13-28 13-13 28-13-28-28-13Z" fill="#F7F5EC"/>
+    <path d="m664 560 8-19 9 19 19 9-19 8-9 19-8-19-19-8Z" fill="#F4C84A"/>
+    <path d="M-60 803c215-112 370-99 537-27 147 64 256 57 383-6v290H-60Z" fill="#183D32"/>
+    <path d="M-60 787c215-112 370-99 537-27 147 64 256 57 383-6" stroke="#F7F5EC" stroke-width="2"/>
+    <path d="M-60 814c215-112 370-99 537-27 147 64 256 57 383-6" stroke="#F4C84A" stroke-width="2"/>
+    <path fill="url(#paper)" d="M0 0h800v1000H0z"/>
+  </g>
+</svg>

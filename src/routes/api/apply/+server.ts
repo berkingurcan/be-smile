@@ -4,6 +4,11 @@ import { validateApplication, applicationEmail, readApplication, cvAttachment, A
 import type { RequestHandler } from './$types';
 
 export const prerender = false;
+export const GET: RequestHandler = () => json(
+  {available: Boolean(RESEND_API_KEY && APPLICATION_TO_EMAIL && APPLICATION_FROM_EMAIL)},
+  {headers: {'Cache-Control': 'no-store'}}
+);
+
 export const POST: RequestHandler = async ({ request, url, fetch }) => {
   const headers = { 'Cache-Control':'no-store' };
   if (request.headers.get('origin') !== url.origin) return json({ok:false},{status:403,headers});

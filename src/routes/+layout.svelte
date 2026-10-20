@@ -3,6 +3,7 @@
   import '@fontsource-variable/golos-text';
   import '../app.css';
   import '../refinement.css';
+  import '../editorial.css';
   import { onMount } from 'svelte';
   import { base } from '../lib/site';
   onMount(() => {

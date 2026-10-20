@@ -2,7 +2,14 @@
 import assert from 'node:assert/strict';
 const {set_env}=await import('../.svelte-kit/output/server/env.js');
 set_env({RESEND_API_KEY:'development-test-only',APPLICATION_TO_EMAIL:'team@example.invalid',APPLICATION_FROM_EMAIL:'Be Smile <from@example.invalid>'});
-const {POST}=await import('../.svelte-kit/output/server/entries/endpoints/api/apply/_server.ts.js');
+const {GET,POST}=await import('../.svelte-kit/output/server/entries/endpoints/api/apply/_server.ts.js');
+const available=GET();
+assert.equal(available.headers.get('Cache-Control'),'no-store');
+assert.deepEqual(await available.json(),{available:true});
+set_env({});
+const {GET: closedGET}=await import('../.svelte-kit/output/server/entries/endpoints/api/apply/_server.ts.js?unconfigured');
+assert.deepEqual(await closedGET().json(),{available:false});
+
 const pdf=Buffer.from('%PDF-1.7\nSynthetic CV\n%%EOF');
 const url=new URL('https://besmile.test/api/apply/');
 function request(file,origin=url.origin) {
@@ -23,4 +30,4 @@ assert.equal(response.status,400);assert.equal((await response.json()).code,'inv
 response=await POST({request:request(null,'https://different.test'),url,fetch:mockFetch});assert.equal(response.status,403);assert.equal(calls,before);
 response=await POST({request:request(),url,fetch:async()=>Response.json({message:'Rejected'},{status:422})});assert.equal(response.status,502);
 response=await POST({request:request(),url,fetch:async()=>Response.json({})});assert.equal(response.status,502);
-console.log('6 built API checks passed; email delivery mocked, no email sent.');
+console.log('8 built API checks passed; email delivery mocked, no email sent.');
