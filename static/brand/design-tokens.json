@@ -1,0 +1,24 @@
+{
+  "name": "Be Smile / Sunshine — Smile Disc",
+  "colors": {
+    "sunshine": "#F4C84A",
+    "ink": "#183D32",
+    "cream": "#F7F5EC",
+    "coral": "#B44E38",
+    "sage": "#DCE5DA",
+    "accessibleCoral": "#9D432F"
+  },
+  "fonts": {
+    "display": "Manrope",
+    "body": "Golos Text"
+  },
+  "logo": {
+    "masterGrid": 128,
+    "concept": "smile disc",
+    "discRadius": 58,
+    "smileStroke": 9,
+    "clearSpace": "one quarter of symbol width",
+    "minimumHorizontalPx": 132,
+    "minimumSymbolPx": 24
+  }
+}

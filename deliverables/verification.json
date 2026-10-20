@@ -1,0 +1,141 @@
+{
+  "typecheck": "0 errors, 0 warnings",
+  "unit_tests": "13 passed: 10 application/CV checks and 3 offline worker privacy/lifecycle checks",
+  "vercel_build": "passed; Node 24 runtime",
+  "static_build": "passed",
+  "browser_desktop": {
+    "width": 1440,
+    "height": 1000,
+    "pages": [
+      "Russian",
+      "Turkish",
+      "German",
+      "English",
+      "Hotel partners",
+      "Brand identity"
+    ],
+    "horizontal_overflow": false,
+    "broken_images": 0
+  },
+  "browser_mobile": {
+    "widths": [
+      320,
+      390,
+      768
+    ],
+    "height": 844,
+    "pages": [
+      "Russian",
+      "Turkish",
+      "German",
+      "English",
+      "Hotel partners",
+      "Brand identity",
+      "Privacy"
+    ],
+    "horizontal_overflow": false,
+    "broken_images": 0
+  },
+  "interactions": [
+    "role selection pre-fills the application",
+    "mobile bottom navigation scrolls to the correct section and hides for application",
+    "language links render one translated page",
+    "FAQ expands and collapses",
+    "logo variant buttons update the artwork",
+    "unconfigured email returns unavailable and preserves entered fields"
+  ],
+  "screenshots": 27,
+  "email_delivery": "Not enabled: agency email and provider settings intentionally left for .env configuration. No email sent.",
+  "public_website": "https://coastal-agency-branding.berkingurcan.chatgpt.site/be-smile/tr/",
+  "public_brand": "https://coastal-agency-branding.berkingurcan.chatgpt.site/be-smile/brand/",
+  "languages": [
+    "ru",
+    "tr",
+    "de",
+    "en"
+  ],
+  "hotel_page": {
+    "route": "/hotels/",
+    "sections": 2,
+    "forms": 0,
+    "founders": [
+      "Berkin Gürcan",
+      "İsmail Şen"
+    ],
+    "contact_config": [
+      "PUBLIC_HOTEL_PHONE",
+      "PUBLIC_CONTACT_EMAIL"
+    ]
+  },
+  "turkish_copy": "Native Turkish rewrite across candidate, hotels, privacy, artwork captions and brand sample.",
+  "optional_cv": {
+    "required": false,
+    "types": [
+      "PDF",
+      "DOCX"
+    ],
+    "max_bytes": 3145728,
+    "delivery": "Resend email attachment when configured",
+    "checks": [
+      "client selection and removal",
+      "invalid file client error can be cleared",
+      "server signature, size and multipart validation",
+      "stream limit with no Content-Length",
+      "local API: valid CV returned 503 unavailable without email config; invalid CV returned 400 invalid_cv",
+      "CV-free browser submission accepted validation, preserved inputs and reported unavailable"
+    ]
+  },
+  "built_api_checks": "6 passed with mocked email provider: PDF attachment, CV-free application, invalid file, foreign origin, provider rejection, unconfirmed delivery",
+  "public_application": "https://coastal-agency-branding.berkingurcan.chatgpt.site/be-smile/tr/#apply",
+  "public_deployment": "Live version 6; revised role copy saved only",
+  "brand_revision": "Smile Disc minimal identity, 2026–2027",
+  "palette": {
+    "sunshine": "#F4C84A",
+    "cream": "#F7F5EC",
+    "ink": "#183D32",
+    "coral": "#B44E38",
+    "sage": "#DCE5DA"
+  },
+  "pwa": {
+    "manifest": "Standalone, scoped base path; root Vercel and /be-smile/ static checked",
+    "icons": "192/512 PNG, maskable 512 PNG, Apple 180 PNG; dimensions verified",
+    "offline": "Localized public navigation fallback; no application/CV caching",
+    "touch_targets": "Language 44x44, bottom navigation at least 52px",
+    "form_controls": "16px text and 54px controls",
+    "safe_areas": true,
+    "reduced_motion": true,
+    "physical_device_install": "Not tested on physical iOS/Android devices",
+    "public_http": "Manifest: 200 application/manifest+json; worker: 200 text/javascript, exact source match"
+  },
+  "public_version": 6,
+  "public_source_commit": "450c2e31be81723772c6db9463a54a5b26080604",
+  "role_copy_revision": {
+    "languages": [
+      "ru",
+      "tr",
+      "de",
+      "en"
+    ],
+    "updates": [
+      "Pool workouts, fitness and yoga",
+      "Positive, creative kids-club wording",
+      "Dancers and DJs; musician positions removed",
+      "Hotel animation: land sports, daytime games, evening shows; no hosting"
+    ],
+    "consistency": [
+      "Candidate cards and application dropdown",
+      "Application email role label",
+      "Hotel service list"
+    ],
+    "browser_checks": "RU/TR/DE/EN and hotel page checked locally at 1440 and 390 px, no horizontal overflow",
+    "publication": "Saved website version 7; NOT deployed after automatic approval review rejected production publication. Live site remains version 6."
+  },
+  "saved_version": 7,
+  "saved_source_commit": "7c971a50017a667374b5a51f1bbcfdbc87309972",
+  "git_handoff": {
+    "branch": "main",
+    "commits": 0,
+    "remotes": 0,
+    "private_env_ignored": true
+  }
+}
