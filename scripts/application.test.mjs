@@ -9,6 +9,32 @@ test('separates honeypot submissions and rejects non-object bodies',()=>{assert.
 
 test("rejects removed Ukrainian communication option",()=>assert.equal(validateApplication({...valid,language:"uk"}).valid,false));
 
+test('social profile is optional and supported platforms appear in the application email',()=>{
+  for (const patch of [{}, {socialPlatform:'',socialUsername:''}]) {
+    const result=validateApplication({...valid,...patch});
+    assert.equal(result.valid,true);assert.doesNotMatch(applicationEmail(result.data),/Social media:/);
+  }
+  for (const [socialPlatform,label] of [['instagram','Instagram'],['vk','VK'],['tiktok','TikTok'],['telegram','Telegram'],['youtube','YouTube'],['facebook','Facebook'],['other','Other']]) {
+    const result=validateApplication({...valid,socialPlatform,socialUsername:' @тест_crew '});
+    assert.equal(result.valid,true);assert.equal(result.data.socialUsername,'@тест_crew');
+    assert.ok(applicationEmail(result.data).includes(`Social media: ${label} — @тест_crew`));
+  }
+});
+test('rejects incomplete social profiles, unsupported platforms, oversized usernames and control characters',()=>{
+  for (const patch of [
+    {socialPlatform:'instagram'}, {socialUsername:'@crew'},
+    {socialPlatform:'unknown',socialUsername:'@crew'},
+    {socialPlatform:'vk',socialUsername:'a'.repeat(101)},
+    {socialPlatform:'tiktok',socialUsername:'@crew name'},
+    {socialPlatform:'instagram',socialUsername:'@crew\nBcc:team@example.invalid'},
+    {socialPlatform:'vk',socialUsername:'@crew\u0000'},
+    {socialPlatform:[],socialUsername:'@crew'}, {socialPlatform:'vk',socialUsername:42}
+  ]) {
+    const result=validateApplication({...valid,...patch});
+    assert.equal(result.valid,false);assert.equal(result.code,'invalid_social');
+  }
+});
+
 const {cvAttachment,readApplication,MAX_CV_BYTES,MAX_APPLICATION_BYTES}=await import('../src/lib/server/application.mjs');
 const pdfBytes=Buffer.from('%PDF-1.7\nTest CV\n%%EOF');
 const pdf=new File([pdfBytes],'Özge CV.pdf',{type:'application/pdf'});

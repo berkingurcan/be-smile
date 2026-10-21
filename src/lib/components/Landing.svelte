@@ -2,6 +2,8 @@
   import { copy } from '../content';
   import { editorial } from '../editorial';
   import { MAX_CV_BYTES, cvCopy } from '../cv';
+  import { socialCopy } from '../social-copy';
+  import { socialPlatforms, validateSocial } from '../social.mjs';
   import { asset, base, localePath, type Locale } from '../site';
   import RoleIcon from './RoleIcon.svelte';
   import LanguagePicker from './LanguagePicker.svelte';
@@ -11,6 +13,7 @@
   const t = $derived(copy[lang]);
   const e = $derived(editorial[lang]);
   const cvText = $derived(cvCopy[lang]);
+  const socialText = $derived(socialCopy[lang]);
   let cvFile: File | null = $state(null);
   let cvInput: HTMLInputElement;
   let cvError = $state('');
@@ -76,11 +79,21 @@
     const valid = input.name === 'consent' ? input.checked : input.checkValidity() && input.value.trim().length >= (input.name === 'name' ? 2 : 3);
     errors = {...errors, [input.name]: valid ? '' : e.errors[input.name as keyof typeof e.errors]};
   }
+  function validateSocialFields(form: HTMLFormElement) {
+    const platform = form.elements.namedItem('socialPlatform') as HTMLSelectElement;
+    const username = form.elements.namedItem('socialUsername') as HTMLInputElement;
+    const social = validateSocial(platform.value, username.value);
+    errors = {...errors,
+      socialPlatform: !social.valid && social.field === 'socialPlatform' ? socialText.platformError : '',
+      socialUsername: !social.valid && social.field === 'socialUsername' ? socialText.usernameError : ''
+    };
+  }
   async function apply(event: SubmitEvent) {
     event.preventDefault();
     if (availability !== 'open' || sending) return;
     const form = event.currentTarget as HTMLFormElement;
     for (const name of ['name','contact','consent']) validateField(form.elements.namedItem(name) as HTMLInputElement);
+    validateSocialFields(form);
     const invalid = Object.keys(errors).find(key => errors[key]);
     if (invalid || cvError) {
       message = e.errorSummary; result = 'error';
@@ -97,7 +110,7 @@
       const response = await fetch(`${base}/api/apply/`, {method:'POST',body:data});
       const body = await response.json();
       if (!response.ok) {
-        message = body.code === 'invalid_cv' || response.status === 413 ? cvText.error : response.status === 503 ? t.unavailable : response.status === 400 ? t.invalid : t.failure;
+        message = body.code === 'invalid_social' ? socialText.platformError + ' ' + socialText.usernameError : body.code === 'invalid_cv' || response.status === 413 ? cvText.error : response.status === 503 ? t.unavailable : response.status === 400 ? t.invalid : t.failure;
         if(response.status === 503) availability = 'closed'; result = 'error'; return;
       }
       if (body.ok !== true) throw new Error('Delivery not confirmed');
@@ -171,6 +184,14 @@
           <legend class="sr-only">{t.formLabel}</legend>
           <label for="app-name">{t.name}<input id="app-name" name="name" required minlength="2" maxlength="100" autocomplete="name" placeholder={t.namePlaceholder} aria-invalid={errors.name ? true : undefined} aria-describedby={errors.name ? 'name-error' : undefined} onblur={(event) => validateField(event.currentTarget)} oninput={(event) => { if(errors.name) validateField(event.currentTarget); }}/>{#if errors.name}<span class="field-error" id="name-error">{errors.name}</span>{/if}</label>
           <label for="app-contact">{t.contact}<input id="app-contact" name="contact" autocapitalize="none" spellcheck="false" required minlength="3" maxlength="180" placeholder={t.contactPlaceholder} aria-invalid={errors.contact ? true : undefined} aria-describedby={errors.contact ? 'contact-error' : undefined} onblur={(event) => validateField(event.currentTarget)} oninput={(event) => { if(errors.contact) validateField(event.currentTarget); }}/>{#if errors.contact}<span class="field-error" id="contact-error">{errors.contact}</span>{/if}</label>
+          <fieldset class="social-fields" aria-describedby="social-hint">
+            <legend>{socialText.title}</legend>
+            <p id="social-hint">{socialText.hint}</p>
+            <div class="social-row">
+              <label for="app-social-platform">{socialText.platform}<select id="app-social-platform" name="socialPlatform" aria-invalid={errors.socialPlatform ? true : undefined} aria-describedby={errors.socialPlatform ? 'social-platform-error' : undefined} onchange={(event) => { if(errors.socialPlatform || errors.socialUsername) validateSocialFields(event.currentTarget.form!); }}><option value="">{socialText.choose}</option>{#each socialPlatforms as platform}<option value={platform.value}>{platform.value === 'other' ? socialText.other : platform.label}</option>{/each}</select>{#if errors.socialPlatform}<span class="field-error" id="social-platform-error">{errors.socialPlatform}</span>{/if}</label>
+              <label for="app-social-username">{socialText.username}<input id="app-social-username" name="socialUsername" maxlength="100" autocapitalize="none" spellcheck="false" autocomplete="off" placeholder={socialText.placeholder} aria-invalid={errors.socialUsername ? true : undefined} aria-describedby={errors.socialUsername ? 'social-username-error' : undefined} onblur={(event) => validateSocialFields(event.currentTarget.form!)} oninput={(event) => { if(errors.socialPlatform || errors.socialUsername) validateSocialFields(event.currentTarget.form!); }}/>{#if errors.socialUsername}<span class="field-error" id="social-username-error">{errors.socialUsername}</span>{/if}</label>
+            </div>
+          </fieldset>
           <div class="form-row"><label for="app-role">{t.role}<select id="app-role" name="role" bind:value={selectedRole}><option value="">{t.rolePlaceholder}</option>{#each t.roles as role,i}<option value={String(i)}>{role.type}</option>{/each}</select></label><label for="app-language">{t.language}<select id="app-language" name="language" value={lang}><option value="ru">Русский</option><option value="tr">Türkçe</option><option value="de">Deutsch</option><option value="en">English</option></select></label></div>
           <details class="optional-cv"><summary>{cvText.label}<span aria-hidden="true">+</span></summary><div class="cv-field"><p class="cv-optional-note">{e.optional}</p><label class="sr-only" for="app-cv">{cvText.label}</label><div class="cv-upload"><span class="cv-upload-icon" aria-hidden="true">↥</span><div class="cv-upload-copy"><span class="cv-filename" aria-live="polite">{cvFile ? cvFile.name : cvText.choose}</span><span id="cv-hint">{cvText.hint}</span></div><input bind:this={cvInput} id="app-cv" name="cv" type="file" accept=".pdf,.docx,application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document" aria-describedby={cvError ? 'cv-hint cv-error' : 'cv-hint'} aria-invalid={cvError ? true : undefined} onchange={selectCV}/></div>{#if cvFile || cvError}<div class="cv-selection"><span>{cvFile ? `${Math.max(1,Math.round(cvFile.size/1024))} KB` : cvText.empty}</span><button type="button" onclick={removeCV}>{cvText.remove} ×</button></div>{/if}{#if cvError}<p class="cv-error" id="cv-error" role="alert">{cvError}</p>{/if}</div></details>
           <div class="honey" aria-hidden="true"><label>Website<input name="website" tabindex="-1" autocomplete="off"/></label></div>

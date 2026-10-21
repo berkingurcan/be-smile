@@ -12,9 +12,10 @@ assert.deepEqual(await closedGET().json(),{available:false});
 
 const pdf=Buffer.from('%PDF-1.7\nSynthetic CV\n%%EOF');
 const url=new URL('https://besmile.test/api/apply/');
-function request(file,origin=url.origin) {
+function request(file,origin=url.origin,social={}) {
   const form=new FormData();
   for(const [key,value] of Object.entries({name:'Deneme Adayı',contact:'test@example.invalid',language:'tr',role:'1',consent:'yes'}))form.set(key,value);
+  for(const [key,value] of Object.entries(social))form.set(key,value);
   if(file)form.set('cv',file);
   return new Request(url,{method:'POST',headers:{Origin:origin},body:form});
 }
@@ -25,9 +26,14 @@ assert.equal(response.status,200);assert.equal((await response.json()).ok,true);
 response=await POST({request:request(),url,fetch:mockFetch});
 assert.equal(response.status,200);assert.equal(payload.attachments,undefined);
 const before=calls;
+response=await POST({request:request(null,url.origin,{socialPlatform:'instagram'}),url,fetch:mockFetch});
+assert.equal(response.status,400);assert.equal((await response.json()).code,'invalid_social');assert.equal(calls,before);
+response=await POST({request:request(null,url.origin,{socialPlatform:'tiktok',socialUsername:'@crew_test'}),url,fetch:mockFetch});
+assert.equal(response.status,200);assert.match(payload.text,/Social media: TikTok — @crew_test/);
+const afterSocial=calls;
 response=await POST({request:request(new File(['Not a PDF'],'renamed.pdf')),url,fetch:mockFetch});
-assert.equal(response.status,400);assert.equal((await response.json()).code,'invalid_cv');assert.equal(calls,before);
-response=await POST({request:request(null,'https://different.test'),url,fetch:mockFetch});assert.equal(response.status,403);assert.equal(calls,before);
+assert.equal(response.status,400);assert.equal((await response.json()).code,'invalid_cv');assert.equal(calls,afterSocial);
+response=await POST({request:request(null,'https://different.test'),url,fetch:mockFetch});assert.equal(response.status,403);assert.equal(calls,afterSocial);
 response=await POST({request:request(),url,fetch:async()=>Response.json({message:'Rejected'},{status:422})});assert.equal(response.status,502);
 response=await POST({request:request(),url,fetch:async()=>Response.json({})});assert.equal(response.status,502);
-console.log('8 built API checks passed; email delivery mocked, no email sent.');
+console.log('10 built API checks passed; email delivery mocked, no email sent.');

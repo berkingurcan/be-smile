@@ -1,3 +1,5 @@
+import { socialPlatforms, validateSocial } from '../social.mjs';
+
 export function validateApplication(input) {
   if (!input || typeof input !== 'object' || Array.isArray(input)) return { valid:false };
   if (typeof input.website === 'string' && input.website.trim()) return { valid:false, bot:true };
@@ -7,7 +9,9 @@ export function validateApplication(input) {
   const role=['','0','1','2','3'].includes(input.role)?input.role:null;
   const consent=input.consent==='yes';
   if (name.length<2 || contact.length<3 || !language || role===null || !consent) return {valid:false};
-  return {valid:true,data:{name,contact,language,role,consent}};
+  const social = validateSocial(input.socialPlatform, input.socialUsername);
+  if (!social.valid) return {valid:false,code:'invalid_social'};
+  return {valid:true,data:{name,contact,language,role,consent,socialPlatform:social.platform,socialUsername:social.username}};
 }
 
 export function applicationEmail(data) {
@@ -15,6 +19,7 @@ export function applicationEmail(data) {
   return [
     'New Be Smile application', '',
     `Name: ${data.name}`, `Contact: ${data.contact}`,
+    ...(data.socialPlatform ? [`Social media: ${socialPlatforms.find(option => option.value === data.socialPlatform)?.label || 'Other'} — ${data.socialUsername}`] : []),
     `Preferred language: ${data.language}`,
     `Interested in: ${data.role===''?'Help choosing a role':roles[Number(data.role)]}`,
     'Consent: applicant agreed to use of these details to respond to their application.'

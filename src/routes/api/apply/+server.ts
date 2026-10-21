@@ -20,7 +20,7 @@ export const POST: RequestHandler = async ({ request, url, fetch }) => {
   }
   const validated=validateApplication(parsed.input);
   if(validated.bot)return json({ok:true},{status:202,headers});
-  if(!validated.valid)return json({ok:false},{status:400,headers});
+  if(!validated.valid)return json({ok:false,code:validated.code || 'invalid'},{status:400,headers});
   let attachment;
   try { attachment = await cvAttachment(parsed.file); }
   catch (error) {
